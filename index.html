@@ -80,11 +80,19 @@
 
                 <!-- Mobile Menu Button -->
                 <div class="md:hidden flex items-center">
-                    <button class="text-brand-navy hover:text-brand-gold focus:outline-none text-2xl">
+                    <button id="mobile-menu-btn" class="text-brand-navy hover:text-brand-gold focus:outline-none text-2xl">
                         <i class="fa-solid fa-bars"></i>
                     </button>
                 </div>
             </div>
+        </div>
+
+        <!-- Mobile Nav Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 shadow-lg px-4 pt-4 pb-6 space-y-3">
+            <a href="#imovel" class="block text-base font-semibold text-gray-600 hover:text-brand-gold transition-colors">O Imóvel</a>
+            <a href="#beneficios" class="block text-base font-semibold text-gray-600 hover:text-brand-gold transition-colors">Diferenciais</a>
+            <a href="#localizacao" class="block text-base font-semibold text-gray-600 hover:text-brand-gold transition-colors">Localização</a>
+            <a href="#oferta" class="block bg-brand-navy text-white text-center px-5 py-3 mt-4 rounded-md font-semibold hover:bg-brand-gold transition-colors">Fale Conosco</a>
         </div>
     </header>
 
@@ -423,5 +431,22 @@
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
+    <!-- Script Menu Mobile -->
+    <script>
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        // Alterna a visibilidade do menu ao clicar no botão
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Fecha o menu automaticamente quando clicar em algum link
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+    </script>
 </body>
 </html>
