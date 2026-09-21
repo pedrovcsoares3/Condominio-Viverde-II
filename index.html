@@ -65,7 +65,15 @@
             <div class="flex justify-between items-center h-20">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
-                    <img src="logo_2_sem_fundo.png" alt="João de Souza Construções" class="h-12 md:h-15 w-auto object-contain">
+                    <img src="logo_3_sem_fundo.png" alt="Logo" class="h-10 md:h-12 w-auto object-contain mr-3">
+                    <div class="flex flex-col">
+                        <span class="font-heading font-bold text-xl md:text-2xl text-brand-navy leading-none">
+                            João de Souza <span class="text-brand-gold">Construções</span>
+                        </span>
+                        <span class="text-[10px] md:text-xs text-gray-500 tracking-wider mt-1 uppercase font-semibold">
+                            Construtora em São Pedro da Aldeia
+                        </span>
+                    </div>
                 </div>
                 
                 <!-- Desktop Nav -->
@@ -370,19 +378,19 @@
                 </div>
             </div>
 
-            <!-- Card de Estatísticas -->
+            <!-- Card de Estatísticas com Contadores Animados -->
             <div class="bg-white rounded-3xl shadow-xl p-8 md:p-12 border border-gray-100 max-w-5xl mx-auto relative overflow-hidden">
                 <div class="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-8 divide-y md:divide-y-0 md:divide-x divide-gray-100">
                     <div class="py-4 md:py-0 text-center flex flex-col justify-center">
-                        <div class="text-5xl md:text-6xl font-extrabold text-brand-navy mb-3">+15</div>
+                        <div class="text-5xl md:text-6xl font-extrabold text-brand-navy mb-3">+<span class="counter" data-target="15">0</span></div>
                         <div class="text-xs md:text-sm font-semibold text-gray-400 tracking-widest uppercase">Anos de Experiência</div>
                     </div>
                     <div class="py-4 md:py-0 text-center flex flex-col justify-center">
-                        <div class="text-5xl md:text-6xl font-extrabold text-brand-gold mb-3">+350</div>
+                        <div class="text-5xl md:text-6xl font-extrabold text-brand-gold mb-3">+<span class="counter" data-target="350">0</span></div>
                         <div class="text-xs md:text-sm font-semibold text-gray-400 tracking-widest uppercase">Projetos Entregues</div>
                     </div>
                     <div class="py-4 md:py-0 text-center flex flex-col justify-center">
-                        <div class="text-5xl md:text-6xl font-extrabold text-brand-navy mb-3">100%</div>
+                        <div class="text-5xl md:text-6xl font-extrabold text-brand-navy mb-3"><span class="counter" data-target="100">0</span>%</div>
                         <div class="text-xs md:text-sm font-semibold text-gray-400 tracking-widest uppercase">Aprovação Legal</div>
                     </div>
                 </div>
@@ -477,22 +485,60 @@
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
-    <!-- Script Menu Mobile -->
+    <!-- Scripts (Menu Mobile e Animação Numérica) -->
     <script>
+        // Funcionalidade do Menu Mobile
         const mobileBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         
-        // Alterna a visibilidade do menu ao clicar no botão
         mobileBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
         });
 
-        // Fecha o menu automaticamente quando clicar em algum link
         mobileMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenu.classList.add('hidden');
             });
         });
+
+        // Animação de Contagem Crescente (Counters)
+        const counters = document.querySelectorAll('.counter');
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    counters.forEach(counter => {
+                        const target = +counter.getAttribute('data-target');
+                        const duration = 2000; // Duração da animação em milissegundos
+                        const increment = target / (duration / 16); // Incremento baseado em ~60fps
+                        let currentCount = 0;
+
+                        const updateCounter = () => {
+                            currentCount += increment;
+                            if (currentCount < target) {
+                                counter.innerText = Math.ceil(currentCount);
+                                requestAnimationFrame(updateCounter);
+                            } else {
+                                counter.innerText = target;
+                            }
+                        };
+                        updateCounter();
+                    });
+                    // Para a animação de ocorrer novamente após disparar uma vez
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        const statsSection = document.getElementById('sobre');
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
     </script>
 </body>
 </html>
